@@ -89,10 +89,11 @@ public class CrawlerService {
 
 
 
+
                         productsRepository.save(Products.builder()
                                 .keyword(crawlerDto.getKeyword())
                                 .name(title.text())
-                                .price(Integer.parseInt(price.text().replace(",", "")))
+                                .price(price.text().equals("") ? 0 : Integer.parseInt(price.text().replace(",", "")))
                                 .brand(brand.text())
                                 .category(category.text())
                                 .category1(categoryLists.get(0))

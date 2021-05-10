@@ -1,0 +1,34 @@
+
+bootJar {
+    enabled = false;
+}
+jar {
+    enabled = true;
+}
+def swaggerVersion = '2.5.0'
+
+dependencies {
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
+// https://mvnrepository.com/artifact/org.apache.commons/lang3
+    implementation group: 'org.apache.commons', name: 'lang3', version: '3.1.0'
+
+    // https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-high-level-client
+    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-high-level-client', version: '7.5.1'
+    // https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-client
+    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-client', version: '7.5.1'
+    // https://mvnrepository.com/artifact/org.elasticsearch/elasticsearch
+    compile group: 'org.elasticsearch', name: 'elasticsearch', version: '7.5.1'
+
+    // https://mvnrepository.com/artifact/org.jsoup/jsoup
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.12.1'
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: swaggerVersion
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: swaggerVersion
+}

@@ -9,11 +9,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-
 public class Products {
 
     @Id
@@ -53,11 +53,23 @@ public class Products {
     @Column(length = 200, nullable = true)
     private String image;
 
+
     @Column(length = 50, nullable = true)
     private String type;
 
+    @Column(length = 200, nullable = true)
+    private LocalDateTime createdTime;
+
+    @Column(length = 200, nullable = true)
+    private LocalDateTime updatedTime;
+
     @Builder
-    public Products(String keyword, String name, long price, String brand, String category, String category1, String category2, String category3, String category4, String category5, String image, String type) {
+
+    public Products(String keyword,
+                    String name, long price,
+                    String brand, String category,
+                    String category1, String category2, String category3, String category4, String category5, String image, String type,
+                    LocalDateTime createdTime, LocalDateTime updatedTime) {
         this.keyword = keyword;
         this.name = name;
         this.price = price;
@@ -70,6 +82,8 @@ public class Products {
         this.category5 = category5;
         this.image = image;
         this.type = type;
+        this.createdTime = createdTime;
+        this.updatedTime = updatedTime;
     }
 
 }

@@ -85,11 +85,6 @@ public class CrawlerService {
                         }
 
 
-
-
-
-
-
                         productsRepository.save(Products.builder()
                                 .keyword(crawlerDto.getKeyword())
                                 .name(title.text())

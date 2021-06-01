@@ -10,3 +10,7 @@ jpa:
   hibernate:
     use-new-id-generator-mappings: false
     ddl-auto: none
+management:
+  health:
+    elasticsearch:
+      enabled: false

@@ -5,6 +5,7 @@ import com.bbongdoo.doo.apis.IndexApi;
 import com.bbongdoo.doo.config.Client;
 import com.bbongdoo.doo.domain.Products;
 import com.bbongdoo.doo.domain.ProductsRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.admin.indices.alias.IndicesAliasesRequest;
 import org.elasticsearch.action.admin.indices.alias.get.GetAliasesRequest;
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -37,18 +39,25 @@ import java.util.Optional;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
+
 public class IndexService {
 
     @Autowired
     ProductsRepository productsRepository;
 
-    public void staticIndex() {
+    private final RestHighLevelClient client;
 
-        RestHighLevelClient client = Client.getClient();
+
+    public void staticIndex()  {
+
         String indexName = "shop-" + LocalDateTime.now().format(DateTimeFormatter.ISO_DATE).toString();
 
 
         try {
+//            RestHighLevelClient client = new Client().getClient();
+
+
             GetIndexRequest requestGetIndex = new GetIndexRequest(indexName);
             boolean existsIndex = client.indices().exists(requestGetIndex, RequestOptions.DEFAULT);
 
@@ -140,6 +149,9 @@ public class IndexService {
                 IndicesAliasesRequest.AliasActions aliasActionsAdd = new IndicesAliasesRequest.AliasActions(IndicesAliasesRequest.AliasActions.Type.ADD)
                         .index(indexName)
                         .alias("shop");
+
+                indicesAliasesRequest.addAliasAction(aliasActionsAdd);
+
 
             }
 

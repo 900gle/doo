@@ -6,7 +6,7 @@ jar {
     enabled = true;
 }
 def swaggerVersion = '2.5.0'
-def elasticsearchVersion = '7.10.0'
+def elasticsearchVersion = '7.12.1'
 
 dependencies {
 

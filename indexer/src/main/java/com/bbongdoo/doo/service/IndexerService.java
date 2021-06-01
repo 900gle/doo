@@ -17,10 +17,11 @@ public class IndexerService {
 
     public static void main(String[] args) {
 
-        RestHighLevelClient client = Client.getClient();
         String indexName = "shop-" + LocalDateTime.now().format(DateTimeFormatter.ISO_DATE).toString();
 
         try {
+            RestHighLevelClient client = new Client().getClient();
+
             CreateIndexRequest request = IndexApi.createIndex(indexName);
             CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
 

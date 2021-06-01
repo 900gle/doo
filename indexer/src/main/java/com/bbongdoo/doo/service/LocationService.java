@@ -44,9 +44,9 @@ public class LocationService {
 
     public void staticIndex() {
 
-        RestHighLevelClient client = Client.getClient();
         String indexName = "location-" + LocalDateTime.now().format(DateTimeFormatter.ISO_DATE).toString();
         try {
+            RestHighLevelClient client = new Client().getClient();
 
             GetIndexRequest requestGetIndex = new GetIndexRequest(indexName);
             boolean existsIndex = client.indices().exists(requestGetIndex, RequestOptions.DEFAULT);

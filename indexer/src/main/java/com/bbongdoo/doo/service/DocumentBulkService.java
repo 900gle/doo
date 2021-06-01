@@ -30,7 +30,6 @@ public class DocumentBulkService {
 
 
 
-        RestHighLevelClient client = Client.getClient();
 
 
         String indexName = "shop-" + LocalDateTime.now().format(DateTimeFormatter.ISO_DATE).toString();
@@ -38,6 +37,7 @@ public class DocumentBulkService {
         BulkRequest bulkRequest = new BulkRequest();
 
         try {
+            RestHighLevelClient client = new Client().getClient();
 
 
             System.out.println("-----------------------------------------------------------");

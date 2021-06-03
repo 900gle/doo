@@ -19,7 +19,7 @@ dependencies {
     }
 
 // https://mvnrepository.com/artifact/org.apache.commons/lang3
-    implementation group: 'org.apache.commons', name: 'lang3', version: '3.1.0'
+//    implementation group: 'org.apache.commons', name: 'lang3', version: '3.1.0'
 
     // https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-high-level-client
     compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-high-level-client', version: elasticsearchVersion

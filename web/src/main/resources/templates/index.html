@@ -215,7 +215,13 @@
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+  <script th:src="@{/webjars/axios/0.20.0/dist/axios.min.js}"></script>
+  <script src="/js/page/main.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      main.init();
+    });
+  </script>
 </body>
 
 </html>

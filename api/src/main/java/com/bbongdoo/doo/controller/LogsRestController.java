@@ -1,6 +1,6 @@
 package com.bbongdoo.doo.controller;
 
-import com.bbongdoo.doo.service.ProductsService;
+import com.bbongdoo.doo.service.LogsService;
 import com.bbongdoo.doo.model.response.CommonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -11,21 +11,19 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@Api(tags = "1. Products Apis")
+@Api(tags = "2. Logs Apis")
 @RequestMapping("api/")
 @RequiredArgsConstructor
-public class ProductsRestController {
+public class LogsRestController {
 
-    private final ProductsService productsService;
+    private final LogsService logsService;
 
     @CrossOrigin("*")
-    @ApiOperation(value = "search", notes = "검색")
-    @GetMapping("search")
+    @ApiOperation(value = "logs", notes = "로그")
+    @GetMapping("logs")
     public CommonResult getDatas(
-            @ApiParam(value = "검색어") @RequestParam(value = "searchWord", defaultValue = "나이키", required = true) @Validated final String searchWord
+            @ApiParam(value = "검색어") @RequestParam(value = "searchWord", defaultValue = "", required = true) @Validated final String searchWord
     ) {
-        return productsService.getProducts(searchWord);
+        return logsService.getProducts(searchWord);
     }
-
-
 }

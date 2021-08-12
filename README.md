@@ -7,5 +7,5 @@ docker-compose up -d
 docker-compose stop
 ```
 ```
-docker-compose drop
+docker-compose down
 ```

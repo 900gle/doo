@@ -71,97 +71,105 @@ public class IndexApi {
             builder.startObject("properties");
             {
 
-                    builder.startObject("id");
-                    {
-                        builder.field("type", "long");
-                    }
-                    builder.endObject();
+                builder.startObject("id");
+                {
+                    builder.field("type", "long");
+                }
+                builder.endObject();
 
-                    builder.startObject("name");
-                    {
-                        builder.field("type", "text")
-                                .field("analyzer", "sample-nori-analyzer");
-
-
-                    }
-                    builder.endObject();
-
-                    builder.startObject("category");
-                    {
-                        builder.field("type", "text");
-                    }
-                    builder.endObject();
+                builder.startObject("name");
+                {
+                    builder.field("type", "text")
+                            .field("analyzer", "sample-nori-analyzer");
 
 
-                        builder.startObject("category1");
-                        {
-                            builder.field("type", "keyword");
-                        }
-                        builder.endObject();
+                }
+                builder.endObject();
 
-                        builder.startObject("category2");
-                        {
-                            builder.field("type", "keyword");
-                        }
-                        builder.endObject();
-
-                        builder.startObject("category3");
-                        {
-
-                            builder.field("type", "keyword");
-                        }
-                        builder.endObject();
-
-                        builder.startObject("category4");
-                        {
-
-                            builder.field("type", "keyword");
-                        }
-                        builder.endObject();
-
-                        builder.startObject("category5");
-                        {
-
-                            builder.field("type", "keyword");
-                        }
-                        builder.endObject();
-
-                        builder.startObject("price");
-                        {
-                            builder.field("type", "long");
-                        }
-                        builder.endObject();
-
-                        builder.startObject("brand");
-                        {
-                            builder.field("type", "keyword");
-                        }
-                        builder.endObject();
-
-                        builder.startObject("keyword");
-                        {
-                            builder.field("type", "keyword");
-                        }
-                        builder.endObject();
-
-                        builder.startObject("image");
-                        {
-                            builder.field("type", "text");
-                        }
-                        builder.endObject();
-
-                        builder.startObject("type");
-                        {
-                            builder.field("type", "keyword");
-                        }
-                        builder.endObject();
+                builder.startObject("category");
+                {
+                    builder.field("type", "text");
+                }
+                builder.endObject();
 
 
+                builder.startObject("category1");
+                {
+                    builder.field("type", "keyword");
+                }
+                builder.endObject();
+
+                builder.startObject("category2");
+                {
+                    builder.field("type", "keyword");
+                }
+                builder.endObject();
+
+                builder.startObject("category3");
+                {
+
+                    builder.field("type", "keyword");
+                }
+                builder.endObject();
+
+                builder.startObject("category4");
+                {
+
+                    builder.field("type", "keyword");
+                }
+                builder.endObject();
+
+                builder.startObject("category5");
+                {
+
+                    builder.field("type", "keyword");
+                }
+                builder.endObject();
+
+                builder.startObject("price");
+                {
+                    builder.field("type", "long");
+                }
+                builder.endObject();
+
+                builder.startObject("brand");
+                {
+                    builder.field("type", "keyword");
+                }
+                builder.endObject();
+
+                builder.startObject("keyword");
+                {
+                    builder.field("type", "keyword");
+                }
+                builder.endObject();
+
+                builder.startObject("image");
+                {
+                    builder.field("type", "text");
+                }
+                builder.endObject();
+
+                builder.startObject("type");
+                {
+                    builder.field("type", "keyword");
+                }
+                builder.endObject();
+
+                builder.startObject("created_time");
+                {
+                    builder.field("type", "date");
+                    builder.field("format", "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis||strict_date_hour_minute_second_millis||strict_date_optional_time");
+                }
+                builder.endObject();
+                builder.startObject("updated_time");
+                {
+                    builder.field("type", "date");
+                    builder.field("format", "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis||strict_date_hour_minute_second_millis||strict_date_optional_time");
+                }
+                builder.endObject();
 
 
-//        request.alias(
-//                new Alias("shop")
-//        );
             }
             builder.endObject();
         }

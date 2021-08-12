@@ -1,4 +1,4 @@
-package com.bbongdoo.doo.service.model.response;
+package com.bbongdoo.doo.model.response;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;

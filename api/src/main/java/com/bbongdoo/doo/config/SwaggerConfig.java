@@ -20,7 +20,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.ant("/indexer/**"))
+                .paths(PathSelectors.ant("/api/**"))
                 .build();
 
     }
@@ -28,8 +28,8 @@ public class SwaggerConfig {
     private ApiInfo getApiInfo() {
         return new ApiInfoBuilder()
                 .title("APIs")
-                .description("revu elasticsearch apis")
-                .license("all rights reserved revu.com")
+                .description("doo elasticsearch apis")
+                .license("all rights reserved bbongdoo.com")
                 .version("v1")
                 .build();
 

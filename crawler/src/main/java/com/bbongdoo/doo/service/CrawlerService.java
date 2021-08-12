@@ -24,7 +24,6 @@ public class CrawlerService {
     @Autowired
     ProductsRepository productsRepository;
 
-
     public void getData(CrawlerDto crawlerDto) {
 
         try {
@@ -33,30 +32,17 @@ public class CrawlerService {
 
                 String listUrl = "https://search.shopping.naver.com/search/all.nhn?origQuery=" + crawlerDto.getKeyword() + "&pagingIndex=" + i + "&pagingSize=40&productSet=model&viewType=list&sort=rel&frm=NVSHMDL&query=" + crawlerDto.getKeyword();
 
-
                 Document listDocument = Jsoup.connect(listUrl)
                         .timeout(5000)
                         .get();
 
-
-
-
-
 //                Elements urls = listDocument.select("div.img_area>a");
                 Elements urls = listDocument.select("div.thumbnail_thumb_wrap__1pEkS>a");
-
-
-
-
-
 
                 List<String> detailUrl = urls
                         .stream()
                         .map(x -> x.attr("abs:href"))
                         .collect(Collectors.toList());
-
-
-
 
                 detailUrl.forEach(url -> {
                     try {
@@ -70,7 +56,6 @@ public class CrawlerService {
 
                         Elements title = document.select("div.top_summary_title__15yAr>h2");
                         Elements price = document.select("em.lowestPrice_num__3AlQ-");
-
 
 
                         Elements brand = document.select("div.info_inner>span:first-child>em");

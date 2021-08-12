@@ -2,9 +2,9 @@ package com.bbongdoo.doo.service;
 
 
 
-import com.bbongdoo.doo.service.model.response.CommonResult;
-import com.bbongdoo.doo.service.model.response.ListResult;
-import com.bbongdoo.doo.service.model.response.SingleResult;
+import com.bbongdoo.doo.model.response.CommonResult;
+import com.bbongdoo.doo.model.response.ListResult;
+import com.bbongdoo.doo.model.response.SingleResult;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.stereotype.Service;

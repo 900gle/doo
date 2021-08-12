@@ -13,15 +13,18 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class ProductsService {
+public class LogsService {
     private final ResponseService responseService;
 
     private final RestHighLevelClient client;
-    private final String ALIAS = "shop";
+    private final String ALIAS = "logs";
     public CommonResult getProducts(String searchWord){
 
 

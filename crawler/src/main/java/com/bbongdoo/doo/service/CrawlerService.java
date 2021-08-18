@@ -4,11 +4,10 @@ package com.bbongdoo.doo.service;
 import com.bbongdoo.doo.domain.Products;
 import com.bbongdoo.doo.domain.ProductsRepository;
 import com.bbongdoo.doo.dto.CrawlerDto;
-import org.apache.commons.codec.binary.StringUtils;
+import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -19,10 +18,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CrawlerService {
 
-    @Autowired
-    ProductsRepository productsRepository;
+
+    private final ProductsRepository productsRepository;
 
     public void getData(CrawlerDto crawlerDto) {
 

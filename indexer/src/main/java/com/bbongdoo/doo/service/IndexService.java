@@ -2,7 +2,6 @@ package com.bbongdoo.doo.service;
 
 
 import com.bbongdoo.doo.apis.IndexApi;
-import com.bbongdoo.doo.config.Client;
 import com.bbongdoo.doo.domain.Products;
 import com.bbongdoo.doo.domain.ProductsRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,13 +32,10 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortOrder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.awt.print.Pageable;
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;

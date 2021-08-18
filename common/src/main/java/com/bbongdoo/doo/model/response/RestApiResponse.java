@@ -1,11 +1,12 @@
 package com.bbongdoo.doo.model.response;
 
+import com.bbongdoo.doo.model.response.CommonResult;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class RestApiResponse<T> extends CommonResult{
+public class RestApiResponse<T> extends CommonResult {
 
     private Long totalCount;
     private T data;

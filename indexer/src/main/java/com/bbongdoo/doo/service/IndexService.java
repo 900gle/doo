@@ -4,6 +4,7 @@ package com.bbongdoo.doo.service;
 import com.bbongdoo.doo.apis.IndexApi;
 import com.bbongdoo.doo.domain.Products;
 import com.bbongdoo.doo.domain.ProductsRepository;
+import com.bbongdoo.doo.utils.ParseVector;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.admin.indices.alias.IndicesAliasesRequest;
@@ -106,6 +107,8 @@ public class IndexService {
                                 builder.field("category4", x.getCategory4());
                                 builder.field("category5", x.getCategory5());
                                 builder.field("image", x.getImage());
+                                builder.field("image_vector", x.getImageVector());
+
                                 builder.field("type", x.getType());
                                 builder.field("created_time", x.getCreatedTime());
                                 builder.field("updated_time", x.getUpdatedTime());
@@ -210,11 +213,24 @@ public class IndexService {
             });
 
 
-            List<Products> productsList = productsRepository.findAllByUpdatedTimeGreaterThan(updatedTime);
+            List<Products> productsList = null;
+
+            if (updatedTime == null) {
 
 
 
-            if(productsList.size() > 0) {
+                 productsList = productsRepository.findAll();
+
+
+            } else {
+                 productsList = productsRepository.findAllByUpdatedTimeGreaterThan(updatedTime);
+
+            }
+
+
+
+
+            if (productsList.size() > 0) {
                 BulkRequest bulkRequest = new BulkRequest();
                 productsList.forEach(
                         x -> {
@@ -235,9 +251,10 @@ public class IndexService {
                                     builder.field("category4", x.getCategory4());
                                     builder.field("category5", x.getCategory5());
                                     builder.field("image", x.getImage());
+                                    builder.field("image_vector", ParseVector.parse(x.getImageVector()));
                                     builder.field("type", x.getType());
-                                    builder.field("created_time", x.getCreatedTime());
-                                    builder.field("updated_time", x.getUpdatedTime());
+//                                    builder.field("created_time", x.getCreatedTime());
+//                                    builder.field("updated_time", x.getUpdatedTime());
                                 }
                                 builder.endObject();
                                 IndexRequest indexRequest = new IndexRequest("shop")
@@ -254,6 +271,9 @@ public class IndexService {
 
                 BulkResponse bulkResponse = client.bulk(bulkRequest, RequestOptions.DEFAULT);
 
+
+                System.out.println(bulkResponse.buildFailureMessage());
+
                 FlushRequest flushRequest = new FlushRequest("shop");
                 FlushResponse flushResponse = client.indices().flush(flushRequest, RequestOptions.DEFAULT);
                 ForceMergeRequest forceMergeRequest = new ForceMergeRequest("shop");
@@ -264,17 +284,11 @@ public class IndexService {
 //                returnValue.add(result);
 
 
-
-
             } else {
 
                 System.out.println("end");
 
             }
-
-
-
-
 
 
         } catch (IOException e) {

@@ -53,6 +53,8 @@ public class Products {
     @Column(length = 200, nullable = true)
     private String image;
 
+    @Column(length = 5000, nullable = true)
+    private String imageVector;
 
     @Column(length = 50, nullable = true)
     private String type;
@@ -68,7 +70,7 @@ public class Products {
     public Products(String keyword,
                     String name, long price,
                     String brand, String category,
-                    String category1, String category2, String category3, String category4, String category5, String image, String type,
+                    String category1, String category2, String category3, String category4, String category5, String image, String imageVector, String type,
                     LocalDateTime createdTime, LocalDateTime updatedTime) {
         this.keyword = keyword;
         this.name = name;
@@ -81,6 +83,7 @@ public class Products {
         this.category4 = category4;
         this.category5 = category5;
         this.image = image;
+        this.imageVector = imageVector;
         this.type = type;
         this.createdTime = createdTime;
         this.updatedTime = updatedTime;

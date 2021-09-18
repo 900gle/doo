@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Vector;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -52,11 +53,14 @@ public class Products {
     @Column(length = 200, nullable = true)
     private String image;
 
+    @Column(length = 5000, nullable = true)
+    private String imageVector;
+
     @Column(length = 50, nullable = true)
     private String type;
 
     @Builder
-    public Products(String keyword, String name, long price, String brand, String category, String category1, String category2, String category3, String category4, String category5, String image, String type) {
+    public Products(String keyword, String name, long price, String brand, String category, String category1, String category2, String category3, String category4, String category5, String image, String imageVector, String type) {
         this.keyword = keyword;
         this.name = name;
         this.price = price;
@@ -68,6 +72,7 @@ public class Products {
         this.category4 = category4;
         this.category5 = category5;
         this.image = image;
+        this.imageVector = imageVector;
         this.type = type;
     }
 

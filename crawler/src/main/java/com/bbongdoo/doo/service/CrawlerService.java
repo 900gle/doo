@@ -1,6 +1,7 @@
 package com.bbongdoo.doo.service;
 
 
+import com.bbongdoo.doo.component.ImageToVectorOpenCV;
 import com.bbongdoo.doo.domain.Products;
 import com.bbongdoo.doo.domain.ProductsRepository;
 import com.bbongdoo.doo.dto.CrawlerDto;
@@ -21,14 +22,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CrawlerService {
 
-
     private final ProductsRepository productsRepository;
 
     public void getData(CrawlerDto crawlerDto) {
 
         try {
             for (int i = 0; i < 100; i++) {
-                Thread.sleep(1000); //1초 대기
+                Thread.sleep(2000); //1초 대기
 
                 String listUrl = "https://search.shopping.naver.com/search/all.nhn?origQuery=" + crawlerDto.getKeyword() + "&pagingIndex=" + i + "&pagingSize=40&productSet=model&viewType=list&sort=rel&frm=NVSHMDL&query=" + crawlerDto.getKeyword();
 
@@ -56,8 +56,6 @@ public class CrawlerService {
 
                         Elements title = document.select("div.top_summary_title__15yAr>h2");
                         Elements price = document.select("em.lowestPrice_num__3AlQ-");
-
-
                         Elements brand = document.select("div.info_inner>span:first-child>em");
                         Elements category = document.select("div.top_breadcrumb__yrBH6 a");
                         Elements image = document.select("div.image_thumb__20xyr>img");
@@ -68,7 +66,6 @@ public class CrawlerService {
                         for (var j = 0; j < categoryArray.length; j++) {
                             categoryLists.put(j, Optional.ofNullable(categoryArray[j]).orElse(null));
                         }
-
 
                         productsRepository.save(Products.builder()
                                 .keyword(crawlerDto.getKeyword())
@@ -82,15 +79,14 @@ public class CrawlerService {
                                 .category4(categoryLists.get(3))
                                 .category5(categoryLists.get(4))
                                 .image(image.attr("src"))
-
+                                .imageVector(ImageToVectorOpenCV.getVector(image.attr("src")).toString())
                                 .type(crawlerDto.getDataType())
                                 .build()
                         );
-
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (InterruptedException ie) {
-
+                        ie.printStackTrace();
                     }
                 });
             }

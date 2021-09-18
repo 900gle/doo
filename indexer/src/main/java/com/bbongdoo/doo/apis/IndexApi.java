@@ -150,6 +150,12 @@ public class IndexApi {
                 }
                 builder.endObject();
 
+                builder.startObject("image_vector");
+                {
+                    builder.field("type", "dense_vector");
+                    builder.field("dims", 128);
+                }
+                builder.endObject();
                 builder.startObject("type");
                 {
                     builder.field("type", "keyword");

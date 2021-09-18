@@ -107,7 +107,7 @@ public class IndexService {
                                 builder.field("category4", x.getCategory4());
                                 builder.field("category5", x.getCategory5());
                                 builder.field("image", x.getImage());
-                                builder.field("image_vector", x.getImageVector());
+                                builder.field("image_vector", ParseVector.parse(x.getImageVector()));
 
                                 builder.field("type", x.getType());
                                 builder.field("created_time", x.getCreatedTime());
@@ -253,8 +253,8 @@ public class IndexService {
                                     builder.field("image", x.getImage());
                                     builder.field("image_vector", ParseVector.parse(x.getImageVector()));
                                     builder.field("type", x.getType());
-//                                    builder.field("created_time", x.getCreatedTime());
-//                                    builder.field("updated_time", x.getUpdatedTime());
+                                    builder.field("created_time", x.getCreatedTime());
+                                    builder.field("updated_time", x.getUpdatedTime());
                                 }
                                 builder.endObject();
                                 IndexRequest indexRequest = new IndexRequest("shop")

@@ -42,4 +42,5 @@ web/src/main/resources/static/images/*
 
 
 ### Custom ###
-.log
+*.log
+/*.log

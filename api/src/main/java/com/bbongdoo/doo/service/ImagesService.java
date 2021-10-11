@@ -39,10 +39,7 @@ public class ImagesService {
         boolQueryBuilder.must(QueryBuilders.termQuery("name", searchWord));
         boolQueryBuilder.should(QueryBuilders.matchQuery("name", searchWord));
 
-
-
         searchSourceBuilder.query(boolQueryBuilder);
-
         searchSourceBuilder.size(8);
         searchRequest.source(searchSourceBuilder);
 

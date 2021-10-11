@@ -39,3 +39,7 @@ out/
 /web/src/main/resources/static/images/
 web/src/main/resources/static/images/
 web/src/main/resources/static/images/*
+
+
+### Custom ###
+.log

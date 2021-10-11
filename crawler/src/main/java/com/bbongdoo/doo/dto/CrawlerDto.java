@@ -10,5 +10,4 @@ import lombok.Setter;
 public class CrawlerDto {
 
     private String keyword;
-    private String dataType;
 }

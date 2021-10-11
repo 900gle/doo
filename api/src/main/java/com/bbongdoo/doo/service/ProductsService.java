@@ -18,29 +18,22 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class ProductsService {
-    private final ResponseService responseService;
 
+    private final ResponseService responseService;
     private final RestHighLevelClient client;
     private final String ALIAS = "shop";
-    public CommonResult getProducts(String searchWord){
 
+    public CommonResult getProducts(String searchWord){
 
         SearchRequest searchRequest = new SearchRequest();
         searchRequest.indices(ALIAS);
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-
-
-
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
 
         boolQueryBuilder.must(QueryBuilders.termQuery("name", searchWord));
         boolQueryBuilder.should(QueryBuilders.matchQuery("name", searchWord));
-
-
-
         searchSourceBuilder.query(boolQueryBuilder);
-
         searchSourceBuilder.size(8);
         searchRequest.source(searchSourceBuilder);
 
@@ -52,9 +45,6 @@ public class ProductsService {
 
             Arrays.stream(results).forEach(hit -> {
                 Map<String, Object> result = hit.getSourceAsMap();
-
-
-
                 System.out.println(result.get("name"));
                 returnValue.add(result);
             });
@@ -64,14 +54,7 @@ public class ProductsService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
-
-
-
-
-
+        
 
         return new CommonResult();
     }

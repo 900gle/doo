@@ -1,8 +1,7 @@
 package com.bbongdoo.doo.controller;
 
-import com.bbongdoo.doo.dto.ImageIndexDTO;
 import com.bbongdoo.doo.model.response.CommonResult;
-import com.bbongdoo.doo.service.OpencvImageIndexService;
+import com.bbongdoo.doo.service.OpencvImageSearchService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -18,18 +17,16 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class ImagesRestController {
 
-
-    private final OpencvImageIndexService opencvImageIndexService;
-
+    private final OpencvImageSearchService opencvImageSearchService;
 
     @CrossOrigin("*")
-    @ApiOperation(value = "index", notes = "이미지 검색 - 이미지 데이타 색인")
+    @ApiOperation(value = "index", notes = "이미지 검색 - 이미지 데이타 검색")
     @PostMapping("opencv")
     public CommonResult staticIndexer(
-            @ApiParam(value = "파일") @RequestParam(value = "file", required = true) @Validated final MultipartFile file,
-            @ApiParam(value = "이미지 아이디") @RequestParam(value = "imageId", defaultValue = "1", required = true) @Validated final int imageId
+            @ApiParam(value = "파일") @RequestParam(value = "file", required = true) @Validated final MultipartFile file
     ) {
-        return opencvImageIndexService.staticIndex(ImageIndexDTO.builder().imageId(imageId).file(file).build());
+
+        return opencvImageSearchService.getImages(com.etoos.imagesearch.dto.ImageSearchDTO.builder().file(file).build());
     }
 
 }

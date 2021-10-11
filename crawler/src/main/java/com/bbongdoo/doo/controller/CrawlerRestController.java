@@ -22,9 +22,8 @@ public class CrawlerRestController {
     @CrossOrigin("*")
     @PostMapping
     public void getData(
-            @ApiParam(value = "keyword") @RequestParam(value = "keyword", defaultValue = "", required = true) String keyword,
-            @ApiParam(value = "dataType") @RequestParam(value = "dataType", defaultValue = "", required = true) String dataType
+            @ApiParam(value = "keyword") @RequestParam(value = "keyword", defaultValue = "", required = true) String keyword
     ) {
-        crawlerService.getData(CrawlerDto.create(keyword, dataType));
+        crawlerService.getData(CrawlerDto.create(keyword));
     }
 }

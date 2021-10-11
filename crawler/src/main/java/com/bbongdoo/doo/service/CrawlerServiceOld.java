@@ -20,16 +20,14 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CrawlerService {
+public class CrawlerServiceOld {
 
     private final ProductsRepository productsRepository;
-    private final int CRAWLING_LIMIT = 100;
 
     public void getData(CrawlerDto crawlerDto) {
 
         try {
-            int i = 0;
-            while (true) {
+            for (int i = 0; i < 100; i++) {
                 Thread.sleep(2000); //1초 대기
 
                 String listUrl = "https://search.shopping.naver.com/search/all.nhn?origQuery=" + crawlerDto.getKeyword() + "&pagingIndex=" + i + "&pagingSize=40&productSet=model&viewType=list&sort=rel&frm=NVSHMDL&query=" + crawlerDto.getKeyword();
@@ -54,9 +52,10 @@ public class CrawlerService {
                                 .timeout(5000)
                                 .get();
 
+
                         Elements title = document.select("div.top_summary_title__15yAr>h2");
                         Elements price = document.select("em.lowestPrice_num__3AlQ-");
-                        Elements brand = document.select("div.top_info_inner__1cEYE>span:first-child>em");
+                        Elements brand = document.select("div.info_inner>span:first-child>em");
                         Elements category = document.select("div.top_breadcrumb__yrBH6 a");
                         Elements image = document.select("div.image_thumb__20xyr>img");
 
@@ -80,7 +79,7 @@ public class CrawlerService {
                                 .category5(categoryLists.get(4))
                                 .image(image.attr("src"))
                                 .imageVector(ImageToVectorOpenCV.getVector(image.attr("src")).toString())
-                                .type("C")
+                                .type(null)
                                 .build()
                         );
                     } catch (IOException e) {
@@ -89,11 +88,6 @@ public class CrawlerService {
                         ie.printStackTrace();
                     }
                 });
-
-                if (i > CRAWLING_LIMIT) {
-                    break;
-                }
-                i ++;
             }
 
         } catch (IOException e) {

@@ -15,37 +15,30 @@ import java.util.Vector;
 public class ImageToVectorOpenCV {
 
     public static Vector<Double> getVector(VectorDTO vectorDTO) throws IOException {
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         String filePath = vectorDTO.getDirPath() + vectorDTO.getFile().getOriginalFilename();
-
         vectorDTO.getFile().transferTo(new File(filePath));
-
-        Mat image = Imgcodecs.imread(filePath);
-        MatOfKeyPoint keyPointOfAvengers = new MatOfKeyPoint();
-        SIFT.create().detect(image, keyPointOfAvengers);
-
-        Mat discripters = new Mat();
-        Mat mask = new Mat();
-        SIFT.create().detectAndCompute(image, mask, keyPointOfAvengers, discripters);
-        return getDoubleVector(discripters);
+        return getDoubleVector(getImageDiscripter(filePath));
     }
-
 
     public static Vector<Double> getVector(String filePath) throws IOException {
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         String imageDirectory = "/Users/doo/project/doo/web/src/main/resources/static/images/";
-
         String path = FileUtil.fileDown(filePath, imageDirectory);
-        Mat image = Imgcodecs.imread(path);
-        
-        MatOfKeyPoint keyPointOfAvengers = new MatOfKeyPoint();
-        SIFT.create().detect(image, keyPointOfAvengers);
+        return getDoubleVector(getImageDiscripter(path));
+    }
+
+    private static Mat getImageDiscripter(String filePath){
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        Mat image = Imgcodecs.imread(filePath);
+
+        MatOfKeyPoint keyPointOfImages = new MatOfKeyPoint();
+        SIFT.create().detect(image, keyPointOfImages);
 
         Mat discripters = new Mat();
         Mat mask = new Mat();
-        SIFT.create().detectAndCompute(image, mask, keyPointOfAvengers, discripters);
-        return getDoubleVector(discripters);
+        SIFT.create().detectAndCompute(image, mask, keyPointOfImages, discripters);
+        return discripters;
     }
+
     private static Vector<Integer> getIntVector(Mat discripters) {
         Vector<Integer> integerVector = new Vector<>();
         for (int i = 0; i < discripters.size(1); i++) {

@@ -14,3 +14,7 @@ management:
   health:
     elasticsearch:
       enabled: false
+file:
+  dir:
+    temp: ${HOME}/project/doo/common/temp/
+    images: ${HOME}/project/doo/common/temp/

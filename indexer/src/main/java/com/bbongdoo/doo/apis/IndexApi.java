@@ -149,7 +149,17 @@ public class IndexApi {
                     builder.field("type", "text");
                 }
                 builder.endObject();
-
+                builder.startObject("popular");
+                {
+                    builder.field("type", "integer");
+                    builder.field("null_value", "1");
+                }
+                builder.endObject();
+                builder.startObject("weight");
+                {
+                    builder.field("type", "float");
+                }
+                builder.endObject();
                 builder.startObject("image_vector");
                 {
                     builder.field("type", "dense_vector");

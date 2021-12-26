@@ -108,6 +108,8 @@ public class IndexService {
                                 builder.field("category5", x.getCategory5());
                                 builder.field("image", x.getImage());
                                 builder.field("image_vector", ParseVector.parse(x.getImageVector()));
+                                builder.field("weight", 0.1);
+                                builder.field("popular", 1);
 
                                 builder.field("type", x.getType());
                                 builder.field("created_time", x.getCreatedTime());

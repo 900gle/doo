@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class IndexCron {
 
-    private final IndexService indexService;
-
-    @Scheduled(cron = "0/1 * * * * *")
-    public void indexJob() {
-        indexService.dynamicIndex();
-    }
+//    private final IndexService indexService;
+//
+//    @Scheduled(cron = "0/1 * * * * *")
+//    public void indexJob() {
+//        indexService.dynamicIndex();
+//    }
 }

@@ -18,50 +18,66 @@ public class IndexApi {
 
         XContentBuilder settingBuilder = XContentFactory.jsonBuilder()
                 .startObject()
-                .field("number_of_shards", 3)
-                .field("number_of_replicas", 0)
+                    .field("number_of_shards", 3)
+                    .field("number_of_replicas", 0)
                 .startObject("analysis")
                 .startObject("tokenizer")
-                .startObject("sample-nori-tokenizer")
-                .field("type", "nori_tokenizer")
-                .field("decompound_mode", "mixed")
-                .field("user_dictionary", "user_dictionary.txt")
-                .endObject()
+                    .startObject("sample-nori-tokenizer")
+                        .field("type", "nori_tokenizer")
+                        .field("decompound_mode", "mixed")
+                        .field("user_dictionary", "user_dictionary.txt")
+                    .endObject()
                 .endObject()
                 .startObject("analyzer")
-                .startObject("sample-nori-analyzer")
-                .field("type", "custom")
-                .field("tokenizer", "sample-nori-tokenizer")
-                .array("filter", new String[]{
-                                "sample-nori-posfilter",
-                                "nori_readingform",
-                                "sample-synonym-filter",
-                                "sample-stop-filter"
-                        }
-                )
-                .endObject()
-                .endObject()
-                .startObject("filter")
-                .startObject("sample-nori-posfilter")
-                .field("type", "nori_part_of_speech")
-                .array("stoptaags", new String[]{
-                                "E", "IC", "J", "MAG", "MM", "NA", "NR", "SC",
-                                "SE", "SF", "SH", "SL", "SN", "SP", "SSC", "SSO",
-                                "SY", "UNA", "UNKNOWN", "VA", "VCN", "VCP", "VSV",
-                                "VV", "VX", "XPN", "XR", "XSA", "XSN", "XSV"
-                        }
-                )
-                .endObject()
-                .startObject("sample-synonym-filter")
-                .field("type", "synonym")
-                .field("synonyms_path", "synonymsFilter.txt")
-                .endObject()
-                .startObject("sample-stop-filter")
-                .field("type", "stop")
-                .field("stopwords_path", "stopFilter.txt")
-                .endObject()
-                .endObject()
-                .endObject()
+                    .startObject("jamo-analyzer")
+                        .field("type", "custom")
+                        .field("tokenizer", "standard")
+                        .array("filter", new String[]{
+                                        "doo-jamo"
+                                }
+                        )
+                    .endObject()
+                    .startObject("chosung-analyzer")
+                        .field("type", "custom")
+                        .field("tokenizer", "standard")
+                        .array("filter", new String[]{
+                                        "doo-chosung"
+                                }
+                        )
+                    .endObject()
+                    .startObject("sample-nori-analyzer")
+                        .field("type", "custom")
+                        .field("tokenizer", "sample-nori-tokenizer")
+                            .array("filter", new String[]{
+                                            "sample-nori-posfilter",
+                                            "nori_readingform",
+                                            "sample-synonym-filter",
+                                            "sample-stop-filter"
+                                    }
+                            )
+                        .endObject()
+                    .endObject()
+                        .startObject("filter")
+                            .startObject("sample-nori-posfilter")
+                                .field("type", "nori_part_of_speech")
+                                    .array("stoptaags", new String[]{
+                                                    "E", "IC", "J", "MAG", "MM", "NA", "NR", "SC",
+                                                    "SE", "SF", "SH", "SL", "SN", "SP", "SSC", "SSO",
+                                                    "SY", "UNA", "UNKNOWN", "VA", "VCN", "VCP", "VSV",
+                                                    "VV", "VX", "XPN", "XR", "XSA", "XSN", "XSV"
+                                            }
+                                    )
+                            .endObject()
+                            .startObject("sample-synonym-filter")
+                                .field("type", "synonym")
+                                .field("synonyms_path", "synonymsFilter.txt")
+                            .endObject()
+                            .startObject("sample-stop-filter")
+                                .field("type", "stop")
+                                .field("stopwords_path", "stopFilter.txt")
+                            .endObject()
+                        .endObject()
+                    .endObject()
                 .endObject();
         request.settings(settingBuilder);
 
@@ -70,7 +86,6 @@ public class IndexApi {
         {
             builder.startObject("properties");
             {
-
                 builder.startObject("id");
                 {
                     builder.field("type", "long");
@@ -79,10 +94,20 @@ public class IndexApi {
 
                 builder.startObject("name");
                 {
-                    builder.field("type", "text")
-                            .field("analyzer", "sample-nori-analyzer");
-
-
+                    builder.startObject("properties");
+                        builder.startObject("nori");
+                            builder.field("type", "text");
+                            builder.field("analyzer", "sample-nori-analyzer");
+                        builder.endObject();
+                        builder.startObject("jamo");
+                            builder.field("type", "text");
+                            builder.field("analyzer", "jamo-analyzer");
+                        builder.endObject();
+                        builder.startObject("chosung");
+                            builder.field("type", "text");
+                            builder.field("analyzer", "chosung-analyzer");
+                        builder.endObject();
+                    builder.endObject();
                 }
                 builder.endObject();
 
@@ -91,7 +116,6 @@ public class IndexApi {
                     builder.field("type", "text");
                 }
                 builder.endObject();
-
 
                 builder.startObject("category1");
                 {

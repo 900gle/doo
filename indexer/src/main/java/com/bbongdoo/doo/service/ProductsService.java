@@ -58,7 +58,6 @@ public class ProductsService {
         String indexName = "shop-" + LocalDateTime.now().format(DateTimeFormatter.ISO_DATE).toString();
 
         try {
-//            RestHighLevelClient client = new Client().getClient();
 
 
             GetIndexRequest requestGetIndex = new GetIndexRequest(indexName);

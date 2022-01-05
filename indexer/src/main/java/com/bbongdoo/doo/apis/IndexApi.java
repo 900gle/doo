@@ -22,7 +22,7 @@ public class IndexApi {
                     .field("number_of_replicas", 0)
                 .startObject("analysis")
                 .startObject("tokenizer")
-                    .startObject("sample-nori-tokenizer")
+                    .startObject("doo-nori-tokenizer")
                         .field("type", "nori_tokenizer")
                         .field("decompound_mode", "mixed")
                         .field("user_dictionary", "user_dictionary.txt")
@@ -45,20 +45,20 @@ public class IndexApi {
                                 }
                         )
                     .endObject()
-                    .startObject("sample-nori-analyzer")
+                    .startObject("doo-nori-analyzer")
                         .field("type", "custom")
-                        .field("tokenizer", "sample-nori-tokenizer")
+                        .field("tokenizer", "doo-nori-tokenizer")
                             .array("filter", new String[]{
-                                            "sample-nori-posfilter",
+                                            "doo-nori-posfilter",
                                             "nori_readingform",
-                                            "sample-synonym-filter",
-                                            "sample-stop-filter"
+                                            "doo-synonym-filter",
+                                            "doo-stop-filter"
                                     }
                             )
                         .endObject()
                     .endObject()
                         .startObject("filter")
-                            .startObject("sample-nori-posfilter")
+                            .startObject("doo-nori-posfilter")
                                 .field("type", "nori_part_of_speech")
                                     .array("stoptaags", new String[]{
                                                     "E", "IC", "J", "MAG", "MM", "NA", "NR", "SC",
@@ -68,11 +68,11 @@ public class IndexApi {
                                             }
                                     )
                             .endObject()
-                            .startObject("sample-synonym-filter")
+                            .startObject("doo-synonym-filter")
                                 .field("type", "synonym")
                                 .field("synonyms_path", "synonymsFilter.txt")
                             .endObject()
-                            .startObject("sample-stop-filter")
+                            .startObject("doo-stop-filter")
                                 .field("type", "stop")
                                 .field("stopwords_path", "stopFilter.txt")
                             .endObject()
@@ -94,19 +94,20 @@ public class IndexApi {
 
                 builder.startObject("name");
                 {
-                    builder.startObject("properties");
+                    builder.field("type", "text");
+                    builder.startObject("fields");
                         builder.startObject("nori");
-                            builder.field("type", "text");
-                            builder.field("analyzer", "sample-nori-analyzer");
-                        builder.endObject();
-                        builder.startObject("jamo");
-                            builder.field("type", "text");
-                            builder.field("analyzer", "jamo-analyzer");
-                        builder.endObject();
-                        builder.startObject("chosung");
-                            builder.field("type", "text");
-                            builder.field("analyzer", "chosung-analyzer");
-                        builder.endObject();
+                                builder.field("type", "text");
+                                builder.field("analyzer", "doo-nori-analyzer");
+                            builder.endObject();
+                            builder.startObject("jamo");
+                                builder.field("type", "text");
+                                builder.field("analyzer", "jamo-analyzer");
+                            builder.endObject();
+                            builder.startObject("chosung");
+                                builder.field("type", "text");
+                                builder.field("analyzer", "chosung-analyzer");
+                            builder.endObject();
                     builder.endObject();
                 }
                 builder.endObject();
@@ -131,21 +132,18 @@ public class IndexApi {
 
                 builder.startObject("category3");
                 {
-
                     builder.field("type", "keyword");
                 }
                 builder.endObject();
 
                 builder.startObject("category4");
                 {
-
                     builder.field("type", "keyword");
                 }
                 builder.endObject();
 
                 builder.startObject("category5");
                 {
-
                     builder.field("type", "keyword");
                 }
                 builder.endObject();

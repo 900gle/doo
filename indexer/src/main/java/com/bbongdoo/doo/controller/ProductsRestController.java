@@ -1,9 +1,8 @@
 package com.bbongdoo.doo.controller;
 
 
-import com.bbongdoo.doo.service.IndexService;
-import com.bbongdoo.doo.service.LocationService;
 import com.bbongdoo.doo.service.ProductsService;
+import com.bbongdoo.doo.service.TestService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductsRestController {
 
     private final ProductsService productsService;
+    private final TestService testService;
 
     @CrossOrigin("*")
     @PostMapping("static/product")
@@ -25,5 +25,9 @@ public class ProductsRestController {
         productsService.staticIndex();
     }
 
-
+    @CrossOrigin("*")
+    @PostMapping("static/test")
+    public void testfile() {
+        testService.staticIndex();
+    }
 }

@@ -19,6 +19,8 @@ public class TestService {
 
     private final ProductsRepository productsRepository;
 
+
+
     public void staticIndex() {
 
         JSONObject obj = new JSONObject();
@@ -32,6 +34,7 @@ public class TestService {
                 obj.put("id", x.getId());
                 obj.put("name", x.getName());
                 obj.put("price", x.getPrice());
+                obj.put("category", x.getCategory());
                 try {
                     file.write(obj.toJSONString() +"\r\n");
                 } catch (IOException e) {

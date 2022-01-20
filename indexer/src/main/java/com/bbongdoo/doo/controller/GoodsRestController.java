@@ -1,6 +1,7 @@
 package com.bbongdoo.doo.controller;
 
 
+import com.bbongdoo.doo.service.GoodsService;
 import com.bbongdoo.doo.service.ProductsService;
 import com.bbongdoo.doo.service.TestService;
 import io.swagger.annotations.Api;
@@ -10,24 +11,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = {"1. Products"})
+@Api(tags = {"2. Goods"})
 @RestController
 @RequestMapping("indexer")
 @RequiredArgsConstructor
-public class ProductsRestController {
+public class GoodsRestController {
 
-    private final ProductsService productsService;
-    private final TestService testService;
+    private final GoodsService goodsService;
 
     @CrossOrigin("*")
-    @PostMapping("static/products")
+    @PostMapping("static/goods")
     public void staticIndex() {
-        productsService.staticIndex();
+        goodsService.staticIndex();
     }
 
-    @CrossOrigin("*")
-    @PostMapping("file/products")
-    public void testfile() {
-        testService.staticIndex();
-    }
 }

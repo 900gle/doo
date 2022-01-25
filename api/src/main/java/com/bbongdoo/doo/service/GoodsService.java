@@ -1,22 +1,31 @@
 package com.bbongdoo.doo.service;
 
+import com.bbongdoo.doo.component.TextEmbedding;
+import com.bbongdoo.doo.dto.TextEmbeddingDTO;
 import com.bbongdoo.doo.model.response.CommonResult;
+import com.google.common.base.Functions;
 import lombok.RequiredArgsConstructor;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.lucene.search.function.FunctionScoreQuery;
+import org.elasticsearch.common.lucene.search.function.ScoreFunction;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.functionscore.*;
+import org.elasticsearch.script.Script;
+import org.elasticsearch.script.ScriptType;
+import org.elasticsearch.script.mustache.SearchTemplateRequest;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static java.util.Collections.emptyMap;
 
 @Service
 @RequiredArgsConstructor
@@ -26,23 +35,78 @@ public class GoodsService {
     private final RestHighLevelClient client;
     private final String ALIAS = "goods";
 
-    public CommonResult getProducts(String searchWord){
+    public CommonResult getProducts(String searchWord) {
 
         SearchRequest searchRequest = new SearchRequest();
         searchRequest.indices(ALIAS);
-
-        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-
-        boolQueryBuilder.must(QueryBuilders.termQuery("name", searchWord));
-        boolQueryBuilder.should(QueryBuilders.matchQuery("name", searchWord));
-        searchSourceBuilder.query(boolQueryBuilder);
-        searchSourceBuilder.size(8);
-        searchRequest.source(searchSourceBuilder);
-
-        System.out.println(searchRequest);
-
         try {
+            SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+            Vector<Double> vectors = TextEmbedding.getVector(
+                    TextEmbeddingDTO.builder()
+                            .tensorApiUrl("http://localhost:5000/vectors")
+                            .keyword(searchWord).build()
+            );
+
+            String[] includeFields = new String[]{"name", "category"};
+            String[] excludeFields = new String[]{"feature_vector"};
+            searchSourceBuilder.fetchSource(includeFields, excludeFields);
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("query_vector", vectors);
+
+
+            ScriptScoreQueryBuilder scriptScoreQueryBuilder = new ScriptScoreQueryBuilder(
+                    QueryBuilders.multiMatchQuery(searchWord, "name", "category"),
+
+
+                    new Script(
+                            Script.DEFAULT_SCRIPT_TYPE,
+                            Script.DEFAULT_SCRIPT_LANG,
+                            "cosineSimilarity(params.query_vector, 'feature_vector') * doc['weight'].value * doc['populr'].value / doc['name'].length + doc['category'].length", map)
+            );
+
+//
+//            FunctionScoreQueryBuilder.FilterFunctionBuilder[] functions = {
+//                    new FunctionScoreQueryBuilder.FilterFunctionBuilder(
+//                            matchQuery("name", "kimchy"),
+//                            randomFunction())
+//
+//            };
+
+
+//            FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(             QueryBuilders.multiMatchQuery(searchWord, "name", "category")
+//            );
+
+
+            ScriptScoreFunctionBuilder scoreFunction = ScoreFunctionBuilders
+                    .scriptFunction("cosineSimilarity(params.query_vector, 'feature_vector') * doc['weight'].value * doc['populr'].value / doc['name'].length + doc['category'].length");
+
+
+            FunctionScoreQueryBuilder functionScoreQueryBuilder = new FunctionScoreQueryBuilder(
+                    QueryBuilders.multiMatchQuery(searchWord, "name", "category"),
+                    new FunctionScoreQueryBuilder.FilterFunctionBuilder[]{new FunctionScoreQueryBuilder.FilterFunctionBuilder(scoreFunction)}
+
+
+
+
+
+            );
+//
+//            functionScoreQueryBuilder.filterFunctionBuilders();
+
+
+//            searchBulider.setQuery(new FunctionScoreQueryBuilder(query, scoreFunction)
+//                    .boostMode("replace"));
+
+
+            searchSourceBuilder.query(
+                    functionScoreQueryBuilder
+            );
+            searchSourceBuilder.size(8);
+            searchRequest.source(searchSourceBuilder);
+
+            System.out.println(searchRequest.source());
             SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
 
             List<Map<String, Object>> returnValue = new ArrayList<>();
@@ -59,8 +123,9 @@ public class GoodsService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
 
         return new CommonResult();
     }
+
 }

@@ -2,6 +2,7 @@ package com.bbongdoo.doo.service;
 
 
 import com.bbongdoo.doo.apis.IndexApi;
+import com.bbongdoo.doo.apis.IndexGoodsApi;
 import com.bbongdoo.doo.domain.Goods;
 import com.bbongdoo.doo.domain.GoodsRepository;
 import com.bbongdoo.doo.domain.Products;
@@ -75,14 +76,14 @@ public class GoodsService {
             }
 
             if (existsIndex == false) {
-                CreateIndexRequest request = IndexApi.createIndex(indexName);
+                CreateIndexRequest request = IndexGoodsApi.createIndex(indexName);
                 CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
             } else {
 
                 if (!oldIndexName.equals(indexName)) {
                     DeleteIndexRequest deleteIndexRequest = new DeleteIndexRequest(indexName);
                     AcknowledgedResponse deleteIndexResponse = client.indices().delete(deleteIndexRequest, RequestOptions.DEFAULT);
-                    CreateIndexRequest request = IndexApi.createIndex(indexName);
+                    CreateIndexRequest request = IndexGoodsApi.createIndex(indexName);
                     CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
                 }
             }

@@ -19,7 +19,8 @@ public class MainController {
         dataMap.put("api", "http://localhost:8080");
         model.addAllAttributes(dataMap);
 
-        return "main";
+//        return "main";
+        return "text";
     }
 
     @GetMapping("detail/{productId}")

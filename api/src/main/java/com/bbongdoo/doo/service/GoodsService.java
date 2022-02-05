@@ -71,9 +71,8 @@ public class GoodsService {
                                                     Script.DEFAULT_SCRIPT_LANG,
                                                     "cosineSimilarity(params.query_vector, 'feature_vector') * doc['weight'].value * doc['popular'].value / doc['name.keyword'].length + doc['category.keyword'].length",
                                                     map)
-                                    )
+                                    ).setWeight(0.1f)
                             )
-
                     }
             );
 
@@ -89,7 +88,7 @@ public class GoodsService {
 
             Arrays.stream(results).forEach(hit -> {
                 Map<String, Object> result = hit.getSourceAsMap();
-                System.out.println(result.get("name"));
+                result.put("score", hit.getScore());
                 returnValue.add(result);
             });
 
